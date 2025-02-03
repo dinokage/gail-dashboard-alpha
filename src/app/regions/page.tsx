@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { useAppContext } from "@/context/AppContext"
 
-const regions = ["TARAPUR", "DUPL-BELAPUR", "TROMBAY", "DPPL-BELAPUR", "THAL-MANGAON", "PUNE", "DHABOL"]
+const regions = ["TARAPUR", "DUPL_BELAPUR", "TROMBAY", "DPPL_BELAPUR", "THAL_MANGAON", "PUNE", "DHABOL"]
 
 export default function RegionSelectionPage() {
   const router = useRouter()

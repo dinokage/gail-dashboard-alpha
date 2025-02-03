@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { getDrawingUrl } from "@/lib/minio"
-import { useAppContext } from "@/context/AppContext"
-import { stationDrawingCategories, junctionDrawingCategories, getDrawingPath, transformToBucketName } from "@/lib/drawings"
+
+// import { useAppContext } from "@/context/AppContext"
+
 
 type Comment = {
   text: string
@@ -17,36 +17,12 @@ type Comment = {
 export default function PreviewPage() {
   const searchParams = useSearchParams()
   const drawingName = searchParams.get("drawing") || ""
-  const { station, isStation } = useAppContext()
+  // const { station, isStation } = useAppContext()
   const [drawingUrl, setDrawingUrl] = useState<string>("")
   const [error, setError] = useState<string>("")
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState("")
 
-  useEffect(() => {
-    async function fetchDrawingUrl() {
-      try {
-        const categories = isStation ? stationDrawingCategories : junctionDrawingCategories
-        const category = Object.values(categories).find(cat => drawingName.includes(cat.name))
-        
-        if (!category) {
-          throw new Error("Drawing category not found")
-        }
-
-        const bucketName = transformToBucketName(station)
-        const drawingPath = getDrawingPath(station, category)
-        const url = await getDrawingUrl(bucketName, `${station.toLowerCase()}/${drawingPath}`)
-        setDrawingUrl(url)
-      } catch (err) {
-        console.error("Error fetching drawing:", err)
-        setError("Failed to load drawing")
-      }
-    }
-
-    if (station && drawingName) {
-      fetchDrawingUrl()
-    }
-  }, [station, drawingName, isStation])
 
   const handleAddComment = () => {
     if (newComment.trim()) {
@@ -67,11 +43,7 @@ export default function PreviewPage() {
             {error ? (
               <div className="text-red-500">{error}</div>
             ) : drawingUrl ? (
-              <iframe 
-                src={drawingUrl}
-                className="w-full h-[600px] border-0"
-                title="Drawing Preview"
-              />
+              <></>
             ) : (
               <div className="bg-gray-200 h-[600px] flex items-center justify-center">
                 <p>Loading drawing...</p>
