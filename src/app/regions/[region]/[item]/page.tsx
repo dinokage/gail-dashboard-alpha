@@ -51,9 +51,9 @@ export default async function ItemsPage(
                   
                     <TableCell>{(item as Station).isMajor ? "Major" : "Minor"}</TableCell>
                  
-                  {params.item === "junctions" && 'pipeSize' in item && (
-                    <TableCell>{item.pipeSize || "N/A"}</TableCell>
-                  )}
+                  {params.item === "junctions" && 'pipeSize' in item ? (
+                    <TableCell>{item.pipeSize}</TableCell>
+                  ) :( <TableCell>{"N/A"}</TableCell>)}
                   <TableCell>
                     <Link href={`/regions/${params.region}/${params.item}/${item.code}/drawings`}>
                       <Button variant="outline">Select</Button>
