@@ -6,14 +6,15 @@ import { notFound } from "next/navigation"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import React from "react"
 
-export default function ItemsPage({ 
-  params 
-}: { 
-  params: { region: string; item: "stations" | "junctions" } 
-}) {
-    const { region, item } = params
+export default async function ItemsPage(
+  props: { 
+    params: Promise<{ region: string; item: "stations" | "junctions" }> 
+  }
+) {
+  const params = await props.params;
+  const { region, item } = params
   const regionData = regions[region]
-  
+
   if (!regionData) {
     notFound()
   }

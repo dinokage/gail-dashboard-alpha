@@ -4,9 +4,10 @@ import { regions } from "@/lib/regionData"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-export default function RegionPage({ params }: { params: { region: string } }) {
+export default async function RegionPage(props: { params: Promise<{ region: string }> }) {
+  const params = await props.params;
   const regionData = regions[params.region]
-  
+
   if (!regionData) {
     notFound()
   }

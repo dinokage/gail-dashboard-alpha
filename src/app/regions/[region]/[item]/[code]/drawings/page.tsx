@@ -1,20 +1,22 @@
-"use client"
+"use client";
+import { use } from "react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { regions } from "@/lib/regionData"
 import { notFound } from "next/navigation"
 import  DrawingsList  from "@/components/drawings-list"
 
-export default function DrawingsPage({ 
-  params 
-}: { 
-  params: { 
-    region: string
-    item: "stations" | "junctions"
-    code: string
-  } 
-}) {
-    const {region, item} = params
+export default function DrawingsPage(
+  props: { 
+    params: Promise<{ 
+      region: string
+      item: "stations" | "junctions"
+      code: string
+    }> 
+  }
+) {
+  const params = use(props.params);
+  const {region, item} = params
   const regionData = regions[region]
   if (!regionData) {
     notFound()
@@ -22,7 +24,7 @@ export default function DrawingsPage({
 
   const items = item === "stations" ? regionData.stations : regionData.pipelineJunctions
   const selectedItem = items.find(item => item.code === params.code)
-  
+
   if (!selectedItem) {
     notFound()
   }
