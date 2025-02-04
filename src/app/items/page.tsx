@@ -68,6 +68,7 @@ export default function ItemsPage() {
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.type}</TableCell>
                 {type === "junctions" && (
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   <TableCell>{(item as any).pipeSize || "N/A"}</TableCell>
                 )}
                 <TableCell>

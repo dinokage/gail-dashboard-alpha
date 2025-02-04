@@ -1,21 +1,11 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { useAppContext } from "@/context/AppContext"
-
-const regions = ["TARAPUR", "DUPL_BELAPUR", "TROMBAY", "DPPL_BELAPUR", "THAL_MANGAON", "PUNE", "DHABOL"]
+import Link from "next/link"
+import { regions } from "@/lib/regionData"
 
 export default function RegionSelectionPage() {
-  const router = useRouter()
-  const { setRegion } = useAppContext()
-
-  const handleRegionSelect = (region: string) => {
-    setRegion(region)
-    router.push("/items")
-  }
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-[600px]">
@@ -25,10 +15,12 @@ export default function RegionSelectionPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
-            {regions.map((region) => (
-              <Button key={region} onClick={() => handleRegionSelect(region)} variant="outline" className="h-20" >
-                {region}
-              </Button>
+            {Object.keys(regions).map((region) => (
+              <Link key={region} href={`/regions/${region}`}>
+                <Button variant="outline" className="w-full h-20">
+                  {region.replace("_", " ")}
+                </Button>
+              </Link>
             ))}
           </div>
         </CardContent>

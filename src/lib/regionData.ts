@@ -1,13 +1,13 @@
 export type StationType = 'IP' | 'SV' | 'CGS' | 'RT' | 'CT' | 'DT' | 'TOP';
 export type JunctionType = 'TOP' | 'PUPL' | 'HTPL' | 'DPPL' | 'KPPL' | 'ATPL' | 'TEE POINT';
 
-interface Station {
+export interface Station {
   name: string;
   code: string;
   type: StationType;
 }
 
-interface Junction {
+export interface Junction {
   name: string;
   code: string;
   type: JunctionType;

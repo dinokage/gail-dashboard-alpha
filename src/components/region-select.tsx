@@ -1,4 +1,4 @@
-import { regions } from "@/lib/regionData";
+import { Junction, regions, type Station } from "@/lib/regionData";
 import { getRegionData } from "@/lib/utils";
 import { useState } from "react";
 
@@ -26,16 +26,16 @@ export function RegionSelect() {
                     <div className="space-y-2">
                         <h3 className="font-semibold">Stations</h3>
                         <ul className="list-disc pl-5 space-y-1">
-                            {regionData.stations.map((station) => (
-                                <li key={station}>{station}</li>
+                            {regionData.stations.map((station: Station) => (
+                                <li key={station.code}>{station.name}</li>
                             ))}
                         </ul>
                     </div>
                     <div className="space-y-2">
                         <h3 className="font-semibold">Pipeline Junctions</h3>
                         <ul className="list-disc pl-5 space-y-1">
-                            {regionData.pipelineJunctions.map((junction) => (
-                                <li key={junction}>{junction}</li>
+                            {regionData.pipelineJunctions.map((junction: Junction) => (
+                                <li key={junction.code}>{junction.name}</li>
                             ))}
                         </ul>
                     </div>

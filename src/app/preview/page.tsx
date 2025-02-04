@@ -18,7 +18,9 @@ export default function PreviewPage() {
   const searchParams = useSearchParams()
   const drawingName = searchParams.get("drawing") || ""
   // const { station, isStation } = useAppContext()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [drawingUrl, setDrawingUrl] = useState<string>("")
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string>("")
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState("")
