@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { regions } from "@/lib/regionData"
+import { regions, Station } from "@/lib/regionData"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -36,17 +36,21 @@ export default async function ItemsPage(
                 <TableHead>Code</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
+                {item === "stations" && <TableHead>Major/Minor</TableHead>}
                 {item === "junctions" && <TableHead>Pipe Size</TableHead>}
                 <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {items.map((item, index) => (
-                <TableRow key={item.code}>
+                <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{item.code}</TableCell>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.type}</TableCell>
+                  {params.item === "stations" && (
+                    <TableCell>{(item as Station).isMajor ? "Major" : "Minor"}</TableCell>
+                  )}
                   {params.item === "junctions" && 'pipeSize' in item && (
                     <TableCell>{item.pipeSize || "N/A"}</TableCell>
                   )}

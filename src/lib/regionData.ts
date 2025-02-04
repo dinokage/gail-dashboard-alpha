@@ -5,6 +5,7 @@ export interface Station {
   name: string;
   code: string;
   type: StationType;
+  isMajor?: boolean;
 }
 
 export interface Junction {
@@ -12,6 +13,8 @@ export interface Junction {
   code: string;
   type: JunctionType;
   pipeSize?: string;
+  isMajor?: boolean;
+
 }
 
 interface RegionData {

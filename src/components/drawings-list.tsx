@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select" // Import Select components
+
 type DrawingFormat = "dwg" | "exl" | "pdf" | "hard copy"
 type PaperSize = "A0" | "A1" | "A2" | "A3" | "A4"
 
@@ -49,8 +51,8 @@ export default function DrawingsList({ isStation, station }: { isStation: boolea
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-[600px]">
+    <div className="flex items-center justify-center min-h-screen">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>{station}</CardTitle>
           <CardDescription>Select a drawing type to view</CardDescription>
@@ -58,16 +60,61 @@ export default function DrawingsList({ isStation, station }: { isStation: boolea
         <CardContent>
           <div className="space-y-2">
             {drawings.map((drawing) => (
-              <Button
-                key={drawing.name}
-                onClick={() => handleDrawingSelect(drawing.name)}
-                variant="outline"
-                className="w-full justify-between"
-                disabled={drawing.disabled}
-              >
-                <span>{drawing.name}</span>
-                <span className={`w-3 h-3 rounded-full bg-${drawing.status}-500`}></span>
-              </Button>
+              <div key={drawing.name} className="flex items-center space-x-2">
+                <Button
+                  onClick={() => handleDrawingSelect(drawing.name)}
+                  variant="outline"
+                  className="flex-1 justify-start"
+                  disabled={drawing.disabled}
+                >
+                  <span className={`w-3 h-3 rounded-full bg-${drawing.status}-500`}></span>
+                  <span>{drawing.name}</span>
+                </Button>
+                <Select>
+                  <SelectTrigger className="w-24">
+                    <SelectValue placeholder="Available" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="yes">Yes</SelectItem>
+                    <SelectItem value="no">No</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select>
+                  <SelectTrigger className="w-24">
+                    <SelectValue placeholder="Size" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="A0">A0</SelectItem>
+                    <SelectItem value="A1">A1</SelectItem>
+                    <SelectItem value="A2">A2</SelectItem>
+                    <SelectItem value="A3">A3</SelectItem>
+                    <SelectItem value="A4">A4</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select>
+                  <SelectTrigger className="w-24">
+                    <SelectValue placeholder="Format" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dwg">DWG</SelectItem>
+                    <SelectItem value="exl">EXL</SelectItem>
+                    <SelectItem value="pdf">PDF</SelectItem>
+                    <SelectItem value="hard copy">Hard Copy</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select>
+                  <SelectTrigger className="w-24">
+                    <SelectValue placeholder="Desired size" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="A0">A0</SelectItem>
+                    <SelectItem value="A1">A1</SelectItem>
+                    <SelectItem value="A2">A2</SelectItem>
+                    <SelectItem value="A3">A3</SelectItem>
+                    <SelectItem value="A4">A4</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             ))}
           </div>
         </CardContent>
