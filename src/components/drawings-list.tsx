@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select" // Import Select components
+import { useState } from "react"
 
 type DrawingFormat = "dwg" | "exl" | "pdf" | "hard copy"
 type PaperSize = "A0" | "A1" | "A2" | "A3" | "A4"
@@ -44,10 +45,14 @@ const stationDrawings: DrawingType[] = [
 export default function DrawingsList({ isStation, station }: { isStation: boolean, station: string }) {
   const router = useRouter()
   const drawings = isStation ? stationDrawings : junctionDrawings
-  
+  const [availability, setAvailability] = useState<{ [key: string]: string }>({})
 
   const handleDrawingSelect = (drawing: string) => {
     router.push(`/preview?drawing=${encodeURIComponent(drawing)}`)
+  }
+
+  const handleAvailabilityChange = (drawingName: string, value: string) => {
+    setAvailability((prev) => ({ ...prev, [drawingName]: value }))
   }
 
   return (
@@ -70,7 +75,7 @@ export default function DrawingsList({ isStation, station }: { isStation: boolea
                   <span className={`w-3 h-3 rounded-full bg-${drawing.status}-500`}></span>
                   <span>{drawing.name}</span>
                 </Button>
-                <Select>
+                <Select onValueChange={(value) => handleAvailabilityChange(drawing.name, value)}>
                   <SelectTrigger className="w-24">
                     <SelectValue placeholder="Available" />
                   </SelectTrigger>
@@ -79,7 +84,7 @@ export default function DrawingsList({ isStation, station }: { isStation: boolea
                     <SelectItem value="no">No</SelectItem>
                   </SelectContent>
                 </Select>
-                <Select>
+                <Select disabled={availability[drawing.name] === "no"}>
                   <SelectTrigger className="w-24">
                     <SelectValue placeholder="Size" />
                   </SelectTrigger>
@@ -91,7 +96,7 @@ export default function DrawingsList({ isStation, station }: { isStation: boolea
                     <SelectItem value="A4">A4</SelectItem>
                   </SelectContent>
                 </Select>
-                <Select>
+                <Select disabled={availability[drawing.name] === "no"}>
                   <SelectTrigger className="w-24">
                     <SelectValue placeholder="Format" />
                   </SelectTrigger>
@@ -102,7 +107,7 @@ export default function DrawingsList({ isStation, station }: { isStation: boolea
                     <SelectItem value="hard copy">Hard Copy</SelectItem>
                   </SelectContent>
                 </Select>
-                <Select>
+                <Select disabled={availability[drawing.name] === "no"}>
                   <SelectTrigger className="w-24">
                     <SelectValue placeholder="Desired size" />
                   </SelectTrigger>
