@@ -36,7 +36,7 @@ export default async function ItemsPage(
                 <TableHead>Code</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
-                {item === "stations" && <TableHead>Major/Minor</TableHead>}
+                <TableHead>Major/Minor</TableHead>
                 {item === "junctions" && <TableHead>Pipe Size</TableHead>}
                 <TableHead>Action</TableHead>
               </TableRow>
@@ -48,9 +48,9 @@ export default async function ItemsPage(
                   <TableCell>{item.code}</TableCell>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.type}</TableCell>
-                  {params.item === "stations" && (
+                  
                     <TableCell>{(item as Station).isMajor ? "Major" : "Minor"}</TableCell>
-                  )}
+                 
                   {params.item === "junctions" && 'pipeSize' in item && (
                     <TableCell>{item.pipeSize || "N/A"}</TableCell>
                   )}
