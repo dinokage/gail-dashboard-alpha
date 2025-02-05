@@ -75,7 +75,7 @@ export default function DrawingsList({ isStation, station }: { isStation: boolea
                   <span className={`w-3 h-3 rounded-full bg-${drawing.status}-500`}></span>
                   <span>{drawing.name}</span>
                 </Button>
-                <Select onValueChange={(value) => handleAvailabilityChange(drawing.name, value)}>
+                <Select onValueChange={(value) => handleAvailabilityChange(drawing.name, value)}  >
                   <SelectTrigger className="w-24">
                     <SelectValue placeholder="Available" />
                   </SelectTrigger>
