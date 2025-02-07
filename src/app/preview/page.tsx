@@ -22,6 +22,7 @@ export default function PreviewPage() {
   const [error, setError] = useState<string>("")
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState("")
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null)
 
   const handleAddComment = () => {
     if (newComment.trim()) {
@@ -30,8 +31,13 @@ export default function PreviewPage() {
     }
   }
 
-  const handleUpload = () => {
-    // Implement upload functionality
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      setUploadedFile(file)
+      const url = URL.createObjectURL(file)
+      setDrawingUrl(url)
+    }
   }
 
   return (
@@ -59,7 +65,7 @@ export default function PreviewPage() {
           </CardContent>
         </Card>
         <div className="absolute top-11 right-11">
-          <Button onClick={handleUpload}>Upload</Button>
+          <input type="file" onChange={handleUpload} />
         </div>
       </div>
       <div className="w-1/3 p-8">
