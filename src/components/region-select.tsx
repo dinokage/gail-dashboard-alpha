@@ -5,7 +5,6 @@ import { useState } from "react";
 export function RegionSelect() {
     const [selectedRegion, setSelectedRegion] = useState<string>("");
     const regionData = selectedRegion ? getRegionData(selectedRegion) : null;
-
     return (
         <div className="space-y-4">
             <select 

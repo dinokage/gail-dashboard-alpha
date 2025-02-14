@@ -32,6 +32,7 @@ const getStatusColor = (status: DrawingStatus["status"]) => {
 export default function StatusPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+   <div className="flex flex-col items-center justify-start min-h-screen overflow-scroll bg-cyan-100"></div>
       <Card className="w-[800px]">
         <CardHeader>
           <CardTitle>Drawing Status Overview</CardTitle>

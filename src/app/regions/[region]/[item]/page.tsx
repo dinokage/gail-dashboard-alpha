@@ -22,7 +22,7 @@ export default async function ItemsPage(
   const items = params.item === "stations" ? regionData.stations : regionData.pipelineJunctions
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
+    <div className="flex items-center justify-center min-h-screen bg-cyan-100 p-6">
       <Card className="w-full max-w-[1200px]">
         <CardHeader>
           <CardTitle>{params.region.replace("_", " ")}</CardTitle>

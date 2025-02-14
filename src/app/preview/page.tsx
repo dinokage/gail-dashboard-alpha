@@ -41,7 +41,7 @@ export default function PreviewPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-cyan-50">
       <div className="flex-1 p-8 relative">
         <Card>
           <CardHeader>
