@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -7,7 +8,7 @@ import { regions } from "@/lib/regionData"
 
 export default function RegionSelectionPage() {
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-cyan-100">
+    <div className="flex flex-col items-center justify-start min-h-screen overflow-scroll bg-cyan-100">
       <header className="w-full bg-blue-600 text-white p-4 mt-6">
         <h1 className="text-center text-2xl font-bold">EDMS</h1>
       </header>
@@ -31,7 +32,7 @@ export default function RegionSelectionPage() {
         </Card>
       </div>
       <div className="flex justify-center mt-6">
-        <img src="/pipeline-network.png" alt="Pipeline Network" className="w-full max-w-4xl h-auto" />
+        <Image src="/pipeline-network.png" alt="Pipeline Network" className="w-full h-auto pb-20" width={600} height={300} />
       </div>
     </div>
   )
