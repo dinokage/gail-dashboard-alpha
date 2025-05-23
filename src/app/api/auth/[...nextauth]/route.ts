@@ -1,71 +1,69 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
-import {prisma} from "@/lib/prisma";
+import prisma from "@/lib/prisma";
+import { SHA256 as sha256 } from "crypto-js";
 
-const options = {
+export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-        credentials: {
-            email: { label: "Email", type: "email", placeholder: "example"},
-            password: { label: "Password", type: "password" },
-        },
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
       async authorize(credentials) {
-        const userCredentials = {
-          email: credentials?.email,
-          password: credentials?.password,
-        };
-
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/login`,
-          {
-            method: "POST",
-            body: JSON.stringify(userCredentials),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const user = await res.json();
-
-        if (res.ok && user) {
-          return user;
-        } else {
+        if (!credentials?.email || !credentials.password) {
           return null;
         }
+
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
+
+        if (user && user.password) {
+          // Hash the provided password
+          const hashedPassword = sha256(credentials.password).toString();
+
+          // Compare the hashed password with the stored password
+          if (hashedPassword === user.password) {
+            // Return only necessary user fields
+            return {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              // role: user.role, // Add if you have a role field
+            };
+          }
+        }
+        // If user not found or password doesn't match
+        return null;
       },
     }),
   ],
-
-  adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
-
-  jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
-    maxAge: 60 * 60 * 24 * 30,
-    encryption: true,
+  session: {
+    strategy: "jwt",
   },
-
   pages: {
-    signIn: "/login",
-    signOut: "/login",
-    error: "/login",
+    signIn: "/", // Redirect to home page for sign-in
   },
-
   callbacks: {
-    async session(session, user, token) {
-      if (user !== null) {
-        
-        session.user = user;
-      }
-      return await session;
-    },
-
     async jwt({ token, user }) {
-       return await token;
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).id = token.id;
+      }
+      return session;
     },
   },
 };
 
-export default (req, res) => NextAuth(req, res, options);
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };

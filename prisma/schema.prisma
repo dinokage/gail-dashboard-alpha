@@ -68,4 +68,26 @@ model Drawing {
     originalName String
     createdAt    DateTime @default(now())
     size         Int
+    stationId    String   // Added: Link to Station
+    station      Station  @relation(fields: [stationId], references: [id], onDelete: Cascade) // Added: Relation to Station
+}
+
+model Region {
+  id        String    @id @default(cuid())
+  name      String    @unique // Assuming region names should be unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  stations  Station[]
+}
+
+model Station {
+  id        String   @id @default(cuid())
+  name      String
+  regionId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  region    Region   @relation(fields: [regionId], references: [id], onDelete: Cascade) // Assuming cascade delete for stations if region is deleted
+  drawings  Drawing[] // Added: Relation to Drawings
+
+  @@unique([name, regionId]) // Ensure station names are unique within a region
 }
